@@ -151,7 +151,7 @@ def get_list(path, must_contain=''):
     return image_list
 
 
-class FakePartV2Dataset(Dataset):
+class FakePartsV2Dataset(Dataset):
     """
     A minimal dataset that reads from a dataframe (or list) of IndexEntry records:
       Columns/fields expected:
@@ -276,7 +276,7 @@ if __name__ == '__main__':
         # Human-friendly key
         key = gkey if isinstance(gkey, str) else "/".join(map(str, gkey))
 
-        dataset = FakePartV2Dataset(
+        dataset = FakePartsV2Dataset(
             df=gdf if group_cols else gdf,  # gdf is df when no grouping
             arch=args.arch,
             jpeg_quality=args.jpeg_quality,
