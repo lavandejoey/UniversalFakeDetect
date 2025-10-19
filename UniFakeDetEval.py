@@ -308,5 +308,6 @@ if __name__ == '__main__':
 
         # after the for-loop over all groups:
         pred_df = standardise_predictions(all_rows)  # dtype hygiene + schema check
-        pred_df.to_csv(os.path.join(args.result_folder, f"predictions_{key}.csv"), index=False)
+        save_path = os.path.join(args.result_folder, f"predictions_{key.replace('/', '_')}.csv")
+        pred_df.to_csv(save_path, index=False)
         logger.info(f"[Done] {key}: {len(pred_df)} samples evaluated and saved.")
