@@ -8,7 +8,7 @@ from random import random, choice, shuffle
 from io import BytesIO
 from PIL import Image
 from PIL import ImageFile
-from scipy.ndimage.filters import gaussian_filter
+from scipy.ndimage import gaussian_filter
 import pickle
 import os 
 from skimage.io import imread
