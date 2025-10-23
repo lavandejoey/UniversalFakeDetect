@@ -36,6 +36,7 @@ arch="CLIP:ViT-L/14"
 #'CLIP:RN50', 'CLIP:RN101', 'CLIP:RN50x4', 'CLIP:RN50x16', 'CLIP:RN50x64'
 #'CLIP:ViT-B/32', 'CLIP:ViT-B/16', 'CLIP:ViT-L/14', 'CLIP:ViT-L/14@336px'
 data_entry_csv="/projects/hi-paris/DeepFakeDataset/frames_index.csv"
+done_csv_list=("results")
 
 source /home/infres/ziyliu-24/miniconda3/etc/profile.d/conda.sh
 conda activate fakevlm310
@@ -45,7 +46,8 @@ srun python3 -Wignore UniFakeDetEval.py \
     --arch "${arch}" \
     --ckpt "pretrained_weights/fc_weights.pth" \
     --result_folder "${result_dir}" \
-    --data_csv ${data_entry_csv}
+    --data_csv ${data_entry_csv} \
+    --done_csv_list "${done_csv_list[@]}"
 
 EXIT_CODE=$?
 

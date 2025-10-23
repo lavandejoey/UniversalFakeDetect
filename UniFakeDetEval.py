@@ -45,7 +45,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 SEED = 42
 
@@ -69,14 +69,6 @@ STD = {
 
 
 class FakePartsV2Dataset(FakePartsV2DatasetBase):
-    """
-    Frame-mode dataset built on FakePartsV2DatasetBase that applies:
-      - optional JPEG compression
-      - optional Gaussian blur
-      - center crop to 224
-      - tensor + normalisation (CLIP or ImageNet stats depending on arch)
-    """
-
     def __init__(
             self,
             data_root: Union[str, Path] = FRAMES_ROOT,
@@ -85,6 +77,7 @@ class FakePartsV2Dataset(FakePartsV2DatasetBase):
             model_name: str = "unknown_model",
             arch: str = "CLIP:ViT-L/14",
             on_corrupt: str = "warn",  # safer default: keep going and skip bad files
+            done_csv_list: Optional[Union[str, Path]] = None,
     ):
         stat_from = "imagenet" if arch.lower().startswith("imagenet") else "clip"
         transform = T.Compose([
@@ -100,6 +93,7 @@ class FakePartsV2Dataset(FakePartsV2DatasetBase):
             model_name=model_name,
             transform=transform,
             on_corrupt=on_corrupt,
+            done_csv_list=done_csv_list,
         )
 
 
@@ -109,6 +103,7 @@ def main():
     parser.add_argument("--data_root", type=str, default=str(FRAMES_ROOT), help="dataset root folder")
     parser.add_argument("--data_mode", type=str, default="frame", choices=["frame", "video"], help="data modality")
     parser.add_argument("--data_csv", type=str, default=None, help="CSV indexing the dataset (optional)")
+    parser.add_argument("--done_csv_list", type=str, nargs='*', default=[], help="List of done CSVs to skip samples")
 
     parser.add_argument("--arch", type=str, default="CLIP:ViT-L/14")
     parser.add_argument("--ckpt", type=str, default="./pretrained_weights/fc_weights.pth")
@@ -159,6 +154,7 @@ def main():
         csv_path=args.data_csv or FRAMES_CSV,
         model_name=f"UniFakeDet-{args.arch}",
         arch=args.arch,
+        done_csv_list=args.done_csv_list,
     )
     log.info(f"Dataset: {dataset}")
 
