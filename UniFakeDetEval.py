@@ -109,8 +109,8 @@ def main():
     parser.add_argument("--ckpt", type=str, default="./pretrained_weights/fc_weights.pth")
 
     parser.add_argument("--result_folder", type=str, default="result", help="folder to save predictions.csv")
-    parser.add_argument("--batch_size", type=int, default=900)
-    parser.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 4) // 2))
+    parser.add_argument("--batch_size", type=int, default=512)
+    parser.add_argument("--workers", type=int, default=4)
 
     # parser.add_argument(
     #     "--jpeg_quality",

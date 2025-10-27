@@ -39,7 +39,7 @@ data_entry_csv="/projects/hi-paris/DeepFakeDataset/frames_index.csv"
 done_csv_list=("results")
 
 source /home/infres/ziyliu-24/miniconda3/etc/profile.d/conda.sh
-conda activate fakevlm310
+conda activate deepfake311
 
 srun python3 -Wignore UniFakeDetEval.py \
     --data_root "${data_root}" \
